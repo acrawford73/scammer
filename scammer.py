@@ -30,7 +30,7 @@ random.seed = (os.urandom(1024))
 url = ""
 ###
 
-if url ="":
+if url == "":
     print("URL not specified.")
     quit()
 
