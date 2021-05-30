@@ -23,14 +23,7 @@ def randomize(arr,n):
 	return arr
 
 
-target_url = "http://193.239.84.173"
-# Send the initial request to get the php sessionid
 headers = {"User-Agent":"iPhone 12",}
-r = requests.get(target_url,headers)
-print r.headers
-
-quit()
-
 
 chars = string.ascii_letters + string.digits + '!@#$%^&*()[]+-'
 random.seed = (os.urandom(1024))
@@ -40,7 +33,7 @@ targets_list = json.loads(open('targets.json').read())
 targets_length = len(targets_list)
 
 # Domains
-domains_list = json.loads(open('domains.json').read())
+domains_list = json.loads(open('providers.json').read())
 domains_length = len(domains_list)
 
 # First names
@@ -55,9 +48,9 @@ lastnames = randomize(lastnames_list, lastnames_length)
 
 counter = 0
 
-for i in range(1,100000+1):
+#for i in range(1,100000+1):
 
-#for name in firstnames:
+for name in firstnames:
 
 	# Choose a random target URL
 	target = random.choice(targets_list)
@@ -65,26 +58,25 @@ for i in range(1,100000+1):
 	# Choose a random email domain
 	domain = random.choice(domains_list)
 
-	name = firstnames[i]
 	random_lastname = random.randint(2,100)
 	if random_lastname%2 == 0:
 		lastname = "." + random.choice(lastnames)
-	 	name = name + lastname
+		name = name + lastname
 
 	random_extra = random.randint(2,100)
 
 	if not random_extra%2 == 0:
 		name_extra = ''.join(random.choice(string.digits) for i in range(2))
-		username = name.lower() + name_extra + domain
+		username = name.lower() + name_extra + "@" + domain
 	else:
-		username = name.lower() + domain
+		username = name.lower() + "@" + domain
 	
 	# Blockchain.com phishing uses UUID
 	username = uuid.uuid4()
 
 	password = ''.join(random.choice(chars) for i in range(16))
 
-	target_url = target + sessionid
+	target_url = target # + sessionid
 
 ### SEND TARGET THE REQUEST
 #	r = requests.post(target_url, allow_redirects=False, data={
