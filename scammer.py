@@ -23,16 +23,21 @@ def randomize(arr,n):
 	return arr
 
 
+target_url = "http://193.239.84.173"
+# Send the initial request to get the php sessionid
+headers = {"User-Agent":"iPhone 12",}
+r = requests.get(target_url,headers)
+print r.headers
+
+quit()
+
+
 chars = string.ascii_letters + string.digits + '!@#$%^&*()[]+-'
 random.seed = (os.urandom(1024))
 
-### Scammer URL to target
-url = ""
-###
-
-if url == "":
-    print("URL not specified.")
-    quit()
+# Target URLs
+targets_list = json.loads(open('targets.json').read())
+targets_length = len(targets_list)
 
 # Domains
 domains_list = json.loads(open('domains.json').read())
@@ -50,12 +55,17 @@ lastnames = randomize(lastnames_list, lastnames_length)
 
 counter = 0
 
-#for name in range(1,1000001):
+for i in range(1,100000+1):
 
-for name in firstnames:
+#for name in firstnames:
 
+	# Choose a random target URL
+	target = random.choice(targets_list)
+
+	# Choose a random email domain
 	domain = random.choice(domains_list)
 
+	name = firstnames[i]
 	random_lastname = random.randint(2,100)
 	if random_lastname%2 == 0:
 		lastname = "." + random.choice(lastnames)
@@ -74,13 +84,15 @@ for name in firstnames:
 
 	password = ''.join(random.choice(chars) for i in range(16))
 
+	target_url = target + sessionid
+
 ### SEND TARGET THE REQUEST
-	r = requests.post(url, allow_redirects=False, data={
-		'W-ID': username,
-		'PASS': password
-		})
-	if r.status_code != 200:
-		quit()
+#	r = requests.post(target_url, allow_redirects=False, data={
+#		'W-ID': username,
+#		'PASS': password
+#		})
+#	if r.status_code != 200:
+#		quit()
 ###
 
 	counter += 1
@@ -88,8 +100,9 @@ for name in firstnames:
 	#time.sleep(sleeper)
 	print('Sending [' + str(counter) + '] | {0} | {1} |'.format(username, password)) # + " " + str(sleeper) + "s") 
 
-#print;print("Domains:     " + str(domains_length))
-#print("First Names: " + str(firstnames_length))
-#print("Last Names:  " + str(lastnames_length));print
+print;print("Targets:     " + str(targets_length))
+print("Domains:     " + str(domains_length))
+print("First Names: " + str(firstnames_length))
+print("Last Names:  " + str(lastnames_length));print
 quit()
 
