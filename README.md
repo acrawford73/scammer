@@ -1,3 +1,3 @@
 ## scammer
 
-Fills fake credentials for phishing sites gathering login info.
+Fills fake login credentials for phishing sites that try to gather logins.
